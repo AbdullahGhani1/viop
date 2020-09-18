@@ -16,7 +16,7 @@ class MovieList extends Component {
     if (count === 0) return <h5>Showing {count} movies in the database.</h5>;
 
     return (
-      <Rect.Fragment>
+      <React.Fragment>
         <h5>Showing {count} movies in the database.</h5>
         <table className='table'>
           <thead>
@@ -47,7 +47,7 @@ class MovieList extends Component {
             ))}
           </tbody>
         </table>
-      </Rect.Fragment>
+      </React.Fragment>
     );
   }
 }
