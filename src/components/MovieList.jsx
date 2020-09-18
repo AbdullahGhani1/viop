@@ -12,8 +12,12 @@ class MovieList extends Component {
   render() {
     const tbHead = ['Title', 'Genre', 'Stock', 'Rate', ''];
 
+    const { length: count } = this.state.movies;
+    if (count === 0) return <h5>Showing {count} movies in the database.</h5>;
+
     return (
-      <div>
+      <Rect.Fragment>
+        <h5>Showing {count} movies in the database.</h5>
         <table className='table'>
           <thead>
             <tr>
@@ -43,7 +47,7 @@ class MovieList extends Component {
             ))}
           </tbody>
         </table>
-      </div>
+      </Rect.Fragment>
     );
   }
 }
