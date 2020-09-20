@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
-
+import Like from './common/like';
 class MovieList extends Component {
   state = {
     movies: getMovies(),
+  };
+  handleLike = (movie) => {
+    // console.log('onClicked', movie);
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
   };
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
   };
   render() {
-    const tbHead = ['Title', 'Genre', 'Stock', 'Rate', ''];
-
+    const tbHead = ['Title', 'Genre', 'Stock', 'Rate', 'Like', ''];
     const { length: count } = this.state.movies;
     if (count === 0) return <h5>Showing {count} movies in the database.</h5>;
 
@@ -35,6 +42,9 @@ class MovieList extends Component {
                 <td scope='row'>{td.genre.name}</td>
                 <td scope='row'>{td.numberInStock}</td>
                 <td scope='row'>{td.dailyRentalRate}</td>
+                <td scope='row'>
+                  <Like liked={td.liked} onClick={() => this.handleLike(td)} />
+                </td>
                 <td scope='row'>
                   <button
                     onClick={() => this.handleDelete(td)}
