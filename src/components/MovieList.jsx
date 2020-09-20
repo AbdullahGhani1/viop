@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
 import Like from './common/like';
 import Pagination from './pagination';
+import { paginate } from '../utils/paginate';
 class MovieList extends Component {
   state = {
     movies: getMovies(),
@@ -26,7 +27,8 @@ class MovieList extends Component {
   render() {
     const tbHead = ['Title', 'Genre', 'Stock', 'Rate', 'Like', ''];
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage } = this.state;
+    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const movies = paginate(allMovies, currentPage, pageSize);
     if (count === 0) return <h5>Showing {count} movies in the database.</h5>;
 
     return (
@@ -43,7 +45,7 @@ class MovieList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map((td) => (
+            {movies.map((td) => (
               <tr key={td._id}>
                 <td scope='row'>{td.title}</td>
                 <td scope='row'>{td.genre.name}</td>
