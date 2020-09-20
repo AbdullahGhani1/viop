@@ -6,6 +6,7 @@ class MovieList extends Component {
   state = {
     movies: getMovies(),
     pageSize: 4,
+    currentPage: 1,
   };
   handleLike = (movie) => {
     // console.log('onClicked', movie);
@@ -19,10 +20,13 @@ class MovieList extends Component {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
   };
-  handlePageChange = () => {};
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
   render() {
     const tbHead = ['Title', 'Genre', 'Stock', 'Rate', 'Like', ''];
     const { length: count } = this.state.movies;
+    const { pageSize, currentPage } = this.state;
     if (count === 0) return <h5>Showing {count} movies in the database.</h5>;
 
     return (
@@ -62,7 +66,8 @@ class MovieList extends Component {
         </table>
         <Pagination
           itemsCount={count}
-          pageSize={5}
+          pageSize={pageSize}
+          currentPage={currentPage}
           onPageChange={this.handlePageChange}
         />
       </React.Fragment>
