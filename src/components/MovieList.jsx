@@ -36,10 +36,20 @@ class MovieList extends Component {
   render() {
     const tbHead = ['Title', 'Genre', 'Stock', 'Rate', 'Like', ''];
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies, getGenre } = this.state;
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const {
+      pageSize,
+      currentPage,
+      movies: allMovies,
+      getGenre,
+      selectedGenre,
+    } = this.state;
+    const filtered = selectedGenre
+      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+      : allMovies;
+    const movies = paginate(filtered, currentPage, pageSize);
 
-    if (count === 0) return <h5>Showing {count} movies in the database.</h5>;
+    if (count === 0)
+      return <h5>Showing {filtered.length} movies in the database.</h5>;
 
     return (
       <div className='row'>
@@ -51,7 +61,7 @@ class MovieList extends Component {
           />
         </div>
         <div className='col'>
-          <h5>Showing {count} movies in the database.</h5>
+          <h5>Showing {filtered.length} movies in the database.</h5>
           <table className='table'>
             <thead>
               <tr>
@@ -88,7 +98,7 @@ class MovieList extends Component {
             </tbody>
           </table>
           <Pagination
-            itemsCount={count}
+            itemsCount={filtered.length}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
